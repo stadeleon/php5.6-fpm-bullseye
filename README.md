@@ -25,7 +25,7 @@ docker pull stadeleon/php5.6-fpm-bullseye:latest
 
 ### System Tools
 - **Network:** curl, wget, iputils-ping, net-tools, telnet
-- **Editors:** vim
+- **Editors:** nano
 - **Monitoring:** htop
 - **Security:** gnupg2, ca-certificates
 - **Package Management:** apt-transport-https, lsb-release
@@ -190,7 +190,7 @@ docker exec <container> ps aux | grep php-fpm
 ### File Editing
 ```bash
 # Edit configuration files
-docker exec -it <container> vim /etc/php/5.6/fpm/php.ini
+docker exec -it <container> nano /etc/php/5.6/fpm/php.ini
 ```
 
 ## 🏷️ Available Tags
