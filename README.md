@@ -20,7 +20,7 @@ docker pull stadeleon/php5.6-fpm-bullseye:latest
 
 ### PHP 5.6 FPM
 - **Version:** 5.6.40 from trusted Sury repository
-- **Extensions:** opcache, json, xml, readline, cli, common
+- **Extensions:** opcache, json, readline, cli, common (common package already include: shmop, sysvmsg, sysvsem, sysvshm), runkit 
 - **Configuration:** Ready for production use
 
 ### System Tools
@@ -96,7 +96,8 @@ services:
 
 ### Pre-installed:
 - **Core:** date, ereg, filter, hash, libxml, openssl, pcre, Reflection, SPL, standard, zlib
-- **PHP Modules:** cli, fpm, common, json, xml, opcache, readline
+- **PHP Modules:** cli, fpm, common, json, opcache, readline, runkit
+- **System V IPC:** shmop, sysvmsg, sysvsem, sysvshm (included in php5.6-common)
 
 ### Available for installation via apt:
 

@@ -33,16 +33,33 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN wget -qO /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
   && echo "deb https://packages.sury.org/php/ bullseye main" > /etc/apt/sources.list.d/php.list
 
-# Install PHP 5.6 FPM with essential extensions
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Install PHP 5.6 FPM with essential extensions and upgrade system
+RUN apt-get update && apt-get upgrade -y \
+  && apt-get install -y --no-install-recommends \
   php5.6-fpm \
   php5.6-cli \
   php5.6-common \
   php5.6-json \
-  php5.6-xml \
   php5.6-opcache \
   php5.6-readline \
   && rm -rf /var/lib/apt/lists/*
+
+# Install runkit extension (compile from PECL)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  autoconf \
+  gcc \
+  g++ \
+  make \
+  pkg-config \
+  php5.6-dev \
+  php5.6-xml \
+  php-pear \
+  && pecl install channel://pecl.php.net/runkit-1.0.4 \
+  && echo 'extension=runkit.so' > /etc/php/5.6/mods-available/runkit.ini \
+  && ln -s /etc/php/5.6/mods-available/runkit.ini /etc/php/5.6/fpm/conf.d/30-runkit.ini \
+  && ln -s /etc/php/5.6/mods-available/runkit.ini /etc/php/5.6/cli/conf.d/30-runkit.ini \
+  && apt-get purge -y --auto-remove autoconf gcc g++ make pkg-config php5.6-dev php5.6-xml php-pear \
+  && rm -rf /var/lib/apt/lists/* /tmp/pear
 
 # Configure PHP-FPM to run in foreground
 RUN sed -i 's/;daemonize = yes/daemonize = no/g' /etc/php/5.6/fpm/php-fpm.conf
